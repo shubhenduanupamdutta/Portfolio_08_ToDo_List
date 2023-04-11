@@ -7,8 +7,7 @@ from turbo_flask import Turbo
 from forms import NewTask, RegisterForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
-from datetime import date, datetime
-from flask_wtf import FlaskForm
+from datetime import datetime
 
 # Initializing Flask app
 app = Flask(__name__)
@@ -46,6 +45,24 @@ def load_user(user_id):
     return cur_user
 
 
+def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo], list[Todo]]:
+    tasks_to_do = []
+    working_on = []
+    completed = []
+    archived = []
+    for task in tasks:
+        if not task.task_started:
+            tasks_to_do.append(task)
+        elif not task.task_finished:
+            working_on.append(task)
+        elif not task.archived:
+            completed.append(task)
+        else:
+            archived.append(task)
+
+    return tasks_to_do, working_on, completed, archived
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = NewTask()
@@ -70,7 +87,17 @@ def home():
             estimated_end_date=None
         )
         form = NewTask(formdata=None)
-        return render_template('index.html', form=form, todo_list=todo_list, any_todo=any_todo)
+
+        # Dividing tasks into tasks_todo, working_on and completed
+        tasks_to_do, working_on, completed, archived = divide_tasks(todo_list)
+        session['name'] = current_user.name
+        return render_template('index.html',
+                               form=form,
+                               tasks_to_do=tasks_to_do,
+                               working_on=working_on,
+                               completed=completed,
+                               archive=archived,
+                               any_todo=any_todo)
     return render_template('index.html')
 
 
@@ -128,6 +155,66 @@ def logout():
     flash("You are logged out.")
     return redirect(url_for('home'))
 
+
+# Insert some variables in website
+@app.context_processor
+def inject_variables():
+    cur_year = datetime.now().year
+    return dict(cur_year=cur_year)
+
+
+# list modifying functions
+@app.route('/start/<int:task_id>')
+def start(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.task_started = True
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/delete/<int:task_id>')
+def delete(task_id):
+    task = db.get_or_404(Todo, task_id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/completed/<int:task_id>')
+def completed(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.task_finished = True
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
+@app.route('/archive/<int:task_id>')
+def archive(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.archived = True
+    db.session.commit()
+    return redirect(url_for('home'))
+
+@app.route('/stopped/<int:task_id>')
+def stopped(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.task_started = False
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
+@app.route('/unarchive/<int:task_id>')
+def unarchive(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.archived = False
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
+@app.route('/not_complete/<int:task_id>')
+def not_complete(task_id):
+    task = db.get_or_404(Todo, task_id)
+    task.task_finished = False
+    db.session.commit()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run()

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    Task Manager
+{% endblock %}
+
+{% block content %}
+    {% if current_user.is_authenticated %}
+    {% from "bootstrap/form.html" import render_form %}
+        {{ render_form(form, action=url_for('home'), method='post') }}
+    <h1>Task Manager</h1>
+        {% if any_todo %}
+        <ul>
+            {% for todo in todo_list %}
+                <li>{{ todo.task }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No tasks to do!</p>
+        {% endif %}
+    {% else %}
+
+    <!-- Register Button -->
+    <button onclick="document.location='{{ url_for("register") }}'" class="btn btn-lg btn-primary">Register</button>
+    <!-- Login Button -->
+    <button onclick="document.location='{{ url_for("login") }}'" class="btn btn-lg btn-secondary">Login</button>
+    {% endif %}
+{% endblock %}

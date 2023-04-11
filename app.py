@@ -1,11 +1,125 @@
-from flask import Flask
+import os
+from flask import Flask, render_template, redirect, url_for, flash, session
+from flask_bootstrap import Bootstrap5
+from tables import *
+from sqlalchemy.exc import NoResultFound, IntegrityError
+from turbo_flask import Turbo
+from forms import NewTask, RegisterForm, LoginForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, LoginManager, login_required, current_user, logout_user
+from datetime import date, datetime
+from flask_wtf import FlaskForm
 
+# Initializing Flask app
 app = Flask(__name__)
+app.secret_key = os.environ['SECRET_KEY']
+
+# Initializing Bootstrap
+bootstrap = Bootstrap5()
+bootstrap.init_app(app)
+
+# Initializing Turbo
+turbo = Turbo()
+turbo.init_app(app)
+
+# Creating database
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URI"]
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+# Initializing Login Manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# creating tables in app context
+with app.app_context():
+    db.create_all()
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+# Creating User
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        cur_user = db.session.execute(db.select(User).filter_by(id=int(user_id))).scalar_one()
+    except NoResultFound:
+        cur_user = None
+    return cur_user
+
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    form = NewTask()
+    if form.validate_on_submit():
+        new_task = Todo(task=form.task.data,
+                        estimated_end_date=form.estimated_end_date.data,
+                        user_id=current_user.id)
+        db.session.add(new_task)
+        db.session.commit()
+
+    if current_user.is_authenticated:
+        try:
+            todo_list = list(db.session.execute(db.select(Todo)
+                                                .filter_by(user_id=current_user.id)
+                                                .order_by(Todo.estimated_end_date))
+                             .scalars())
+        except AttributeError:
+            todo_list = []
+        any_todo = len(todo_list) > 0
+        empty_form = NewTask(
+            task=None,
+            estimated_end_date=None
+        )
+        form = NewTask(formdata=None)
+        return render_template('index.html', form=form, todo_list=todo_list, any_todo=any_todo)
+    return render_template('index.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        new_user = User(
+            name=form.name.data,
+            email=form.email.data,
+            password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=16)
+        )
+        db.session.add(new_user)
+        try:
+            db.session.commit()
+        except IntegrityError:
+            flash("You are already registered.")
+            return redirect(url_for('register'))
+        else:
+            login_user(new_user)
+            session['name'] = new_user.name
+            flash(f"Welcome {new_user.name}. You are logged in.")
+            return redirect(url_for('home'))
+
+    return render_template('register.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user_email = form.email.data
+        user_password = form.password.data
+        try:
+            user = db.session.execute(db.select(User).filter_by(email=user_email)).scalar_one()
+        except NoResultFound:
+            flash("Wrong Email! Email is not registered.")
+            return redirect(url_for('login'))
+
+        if check_password_hash(user.password, user_password):
+            login_user(user)
+            session['name'] = user.name
+            flash(f"Welcome back {user.name}. You are logged in.")
+            return redirect(url_for('home'))
+        else:
+            flash("Wrong Password!")
+            return redirect(url_for('login'))
+
+    return render_template("login.html", form=form)
 
 
 if __name__ == '__main__':

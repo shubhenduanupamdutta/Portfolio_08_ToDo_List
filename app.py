@@ -92,7 +92,7 @@ def register():
         else:
             login_user(new_user)
             session['name'] = new_user.name
-            flash(f"Welcome {new_user.name}. You are logged in.")
+            flash(f"Welcome {new_user.name.title()}. You are logged in.")
             return redirect(url_for('home'))
 
     return render_template('register.html', form=form)
@@ -113,13 +113,20 @@ def login():
         if check_password_hash(user.password, user_password):
             login_user(user)
             session['name'] = user.name
-            flash(f"Welcome back {user.name}. You are logged in.")
+            flash(f"Welcome back {user.name.title()}. You are logged in.")
             return redirect(url_for('home'))
         else:
             flash("Wrong Password!")
             return redirect(url_for('login'))
 
     return render_template("login.html", form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash("You are logged out.")
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

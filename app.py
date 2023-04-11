@@ -48,7 +48,7 @@ def load_user(user_id):
 def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo], list[Todo]]:
     tasks_to_do = []
     working_on = []
-    completed = []
+    complete = []
     archived = []
     for task in tasks:
         if not task.task_started:
@@ -56,11 +56,11 @@ def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo],
         elif not task.task_finished:
             working_on.append(task)
         elif not task.archived:
-            completed.append(task)
+            complete.append(task)
         else:
             archived.append(task)
 
-    return tasks_to_do, working_on, completed, archived
+    return tasks_to_do, working_on, complete, archived
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -89,13 +89,13 @@ def home():
         form = NewTask(formdata=None)
 
         # Dividing tasks into tasks_todo, working_on and completed
-        tasks_to_do, working_on, completed, archived = divide_tasks(todo_list)
+        tasks_to_do, working_on, complete, archived = divide_tasks(todo_list)
         session['name'] = current_user.name
         return render_template('index.html',
                                form=form,
                                tasks_to_do=tasks_to_do,
                                working_on=working_on,
-                               completed=completed,
+                               completed=complete,
                                archive=archived,
                                any_todo=any_todo)
     return render_template('index.html')
@@ -160,7 +160,7 @@ def logout():
 @app.context_processor
 def inject_variables():
     cur_year = datetime.now().year
-    return dict(cur_year=cur_year)
+    return dict(year=cur_year)
 
 
 # list modifying functions
@@ -171,12 +171,14 @@ def start(task_id):
     db.session.commit()
     return redirect(url_for('home'))
 
+
 @app.route('/delete/<int:task_id>')
 def delete(task_id):
     task = db.get_or_404(Todo, task_id)
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/completed/<int:task_id>')
 def completed(task_id):
@@ -192,6 +194,7 @@ def archive(task_id):
     task.archived = True
     db.session.commit()
     return redirect(url_for('home'))
+
 
 @app.route('/stopped/<int:task_id>')
 def stopped(task_id):
@@ -215,6 +218,7 @@ def not_complete(task_id):
     task.task_finished = False
     db.session.commit()
     return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run()

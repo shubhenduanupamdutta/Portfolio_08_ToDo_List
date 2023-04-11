@@ -17,48 +17,58 @@
           rel="stylesheet">
 </head>
 <body>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand ms-md-3 ms-0" href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='images/title_icon.png') }}" height="40" alt="task-manager-logo">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-target="#navbar" data-bs-toggler="collapse" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
-                </li>
-                {% if not current_user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+<div id="page-container">
+    <div id="content-wrap">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand ms-md-3 ms-0" href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/title_icon.png') }}" height="40"
+                         alt="task-manager-logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-target="#navbar" data-bs-toggler="collapse"
+                        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
+                        </li>
+                        {% if not current_user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Content -->
+        <section id="flashMessages" class="container">
+            {% from 'bootstrap/utils.html' import render_messages %}
+            {{ render_messages() }}
+        </section>
+        {% if current_user.is_authenticated %}
+            <section id="user_info">
+                <h1> Welcome {{ session.name }}, Your tasks are here:</h1>
+            </section>
+        {% endif %}
+        {% block content %}{% endblock %}
     </div>
-</nav>
-<!-- Page Content -->
-<section id="flashMessages" class="container">
-    {% from 'bootstrap/utils.html' import render_messages %}
-        {{ render_messages() }}
-</section>
-{% if current_user.is_authenticated %}
-<section id="user_info">
-    <h1> Welcome {{ session.name }}, Your tasks are here:</h1>
-</section>
-{% endif %}
-{% block content %}{% endblock %}
+
+    <footer id="footer">
+        &copy; Shubhendu A. Dutta, {{ year }} <br>
+        Built using Flask, Flask_extensions and Bootstrap
+    </footer>
+</div>
 
 {% block scripts %}
     <!-- Bootstrap core JavaScript -->

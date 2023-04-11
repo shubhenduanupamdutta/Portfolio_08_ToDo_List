@@ -4,21 +4,23 @@
     Task Manager
 {% endblock %}
 
-
 {% block content %}
     {% if current_user.is_authenticated %}
-    {% from "bootstrap/form.html" import render_form %}
-        {{ render_form(form, action=url_for('home'), novalidate=True, method='post') }}
-    <h1>Task Manager</h1>
-        {% if any_todo %}
-            {% include 'tasks.html' %}
-        {% endif %}
+        {% from "bootstrap/form.html" import render_form %}
+            {{ render_form(form, action=url_for('home'), novalidate=True, method='post') }}
+            <h1>Task Manager</h1>
+            {% if any_todo %}
+                {% include 'tasks.html' %}
+            {% endif %}
     {% else %}
-        <div class="container">
-    <!-- Register Button -->
-    <button onclick="document.location='{{ url_for("register") }}'" class="btn btn-lg btn-primary mb-3 ml-3">Register</button>
-    <!-- Login Button -->
-    <button onclick="document.location='{{ url_for("login") }}'" class="btn btn-lg btn-secondary mb-3 ml-3">Login</button>
-    </div>
+        <section id="new_user_home">
+            <div class="container">
+                <h1>Welcome To Task Manager. Login or Register to Use.</h1>
+                <!-- Register Button -->
+                <a href="{{ url_for('register') }}" role="button" class="btn btn-lg btn-primary mb-3 ml-3">Register</a>
+                <!-- Login Button -->
+                <a href='{{ url_for("login") }}' class="btn btn-lg btn-secondary mb-3 ml-3">Login</a>
+            </div>
+        </section>
     {% endif %}
 {% endblock %}

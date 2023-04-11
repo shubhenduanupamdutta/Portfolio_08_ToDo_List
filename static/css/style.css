@@ -1,15 +1,16 @@
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url("../images/title.png") no-repeat center center fixed;
-    background-size: 80%;
-    opacity: 0.3;
+html {
+    height: 100%;
 }
 
 body {
+    background: rgb(203,202,218);
+    background: linear-gradient(90deg,
+                rgba(203,202,218,1) 0%,
+                rgba(177,177,214,1) 45%,
+                rgba(127,156,162,1) 100%);
     align-items: center;
     text-align: center;
+    height: 100%;
 }
 
 
@@ -23,7 +24,8 @@ h1, h2, h3 {
 /************** Navigation Bar ***************/
 
 nav.navbar {
-    background-color: #EEEEEE !important;
+    background-color: transparent !important;
+    height: 100px;
 }
 
 nav .nav-item {
@@ -39,4 +41,94 @@ nav .nav-link {
 
 nav .nav-link:hover {
     color: #000000 !important;
+}
+
+nav img:hover {
+    height: 50px;
+}
+
+/************** New User Home Page ***************/
+#new_user_home {
+    margin-top: 5%;
+    padding: 5% 20%;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.8;
+
+}
+
+#new_user_home a {
+    width: 200px;
+    padding-left: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/************** Registration Page ***************/
+#register {
+    margin: 5% 25%;
+    padding: 5% 12%;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+    opacity: 0.9;
+}
+
+#register label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: blue;
+}
+
+
+/************** Login Page ***************/
+
+#login {
+    margin: 5% 25%;
+    padding: 5% 12%;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+    opacity: 0.9;
+}
+
+#login label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: blue;
+}
+
+
+/************** Footer ***************/
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content-wrap {
+    padding-bottom: 4.2rem;    /* Footer height */
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4.2rem;
+    background-color: #383866;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.8rem;
+    color: #888888;
+}
+
+/*********** Media Queries ***********/
+@media screen and (max-width: 768px) {
+    #new_user_home {
+        padding: 5% 2%;
+    }
 }

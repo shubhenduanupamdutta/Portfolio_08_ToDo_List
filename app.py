@@ -82,10 +82,6 @@ def home():
         except AttributeError:
             todo_list = []
         any_todo = len(todo_list) > 0
-        empty_form = NewTask(
-            task=None,
-            estimated_end_date=None
-        )
         form = NewTask(formdata=None)
 
         # Dividing tasks into tasks_todo, working_on and completed

@@ -1,0 +1,15 @@
+<section id="todoForm" class="container text-center">
+    {%  from "bootstrap5/form.html" import render_field %}
+    <form class="form" action="{{ url_for('home') }}" method="post" role="form">
+        {{ form.csrf_token() }}
+        {{ render_field(form.task, form_type="inline", placeholder="Task") }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ render_field(form.estimated_end_date, form_type="horizontal") }}
+            </div>
+            <div class="col-md-6">
+                {{ render_field(form.submit, form_type="horizontal") }}
+            </div>
+        </div>
+
+</section>

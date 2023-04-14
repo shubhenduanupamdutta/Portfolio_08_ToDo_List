@@ -5,8 +5,8 @@ from wtforms.validators import InputRequired, NumberRange, Email, Length, EqualT
 
 # Creating form to add a task
 class NewTask(FlaskForm):
-    task = StringField(label="Task", validators=[InputRequired(), Length(min=1, max=250)])
-    estimated_end_date = DateField(label="Task Deadline")
+    task = StringField(validators=[InputRequired(), Length(min=1, max=250)])
+    estimated_end_date = DateField(label="Deadline")
     submit = SubmitField(label="Add Task", render_kw={"class": "w-25 btn btn-primary"})
 
 

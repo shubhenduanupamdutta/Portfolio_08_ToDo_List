@@ -65,7 +65,7 @@
         </section>
         {% if current_user.is_authenticated %}
             <section id="user_info">
-                <h1> Welcome {{ session.name }}, Your tasks are here:</h1>
+                <h1> Welcome {{ session.name }}</h1>
             </section>
         {% endif %}
         {% block content %}{% endblock %}

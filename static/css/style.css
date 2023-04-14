@@ -47,6 +47,13 @@ nav img:hover {
     height: 50px;
 }
 
+
+/************** Flash Messages ********************/
+
+#flashMessages {
+    padding: 0 20%;
+}
+
 /************** New User Home Page ***************/
 #new_user_home {
     margin-top: 5%;
@@ -101,6 +108,27 @@ nav img:hover {
     color: blue;
 }
 
+/************** To-Do Form ***************/
+#todoForm .btn {
+    width: min(70%, 200px);
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+}
+
+#todoForm label[name="date"] {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+/************** Task Manager ***************/
+
+#taskManager {
+    padding-top: 5%;
+}
+
+#taskManager .filler {
+    background-color: white;
+}
 
 /************** Footer ***************/
 
@@ -130,5 +158,11 @@ nav img:hover {
 @media screen and (max-width: 768px) {
     #new_user_home {
         padding: 5% 2%;
+    }
+}
+
+@media screen and (min-width:800px) {
+    #todoForm {
+        padding: 0 10%;
     }
 }

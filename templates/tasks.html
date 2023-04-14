@@ -1,30 +1,45 @@
-<ul>
-    <h2> tasks to do</h2>
-    {% for todo in tasks_to_do %}
-        <li>{{ todo.task }}</li>
-        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("delete", task_id=todo.id) }}'">Delete</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("start", task_id=todo.id) }}'">Start</button>
-    {% endfor %}
-    <br><br>
-    <h2> Working On</h2>
-    {% for todo in working_on %}
-        <li>{{ todo.task }}</li>
-        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("stopped", task_id=todo.id) }}'">Stop</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("completed", task_id=todo.id) }}'">Completed</button>
-    {% endfor %}
-    <br><br>
-    <h2> Completed</h2>
-    {% for todo in completed %}
-        <li>{{ todo.task }}</li>
-        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("not_complete", task_id=todo.id) }}'">More Work</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("archive", task_id=todo.id) }}'">Archive</button>
-    {% endfor %}
-    <br><br>
-    <h2>Archived</h2>
-    {% for todo in archive %}
-        <li> {{ todo.task }}</li>
-        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("delete", task_id=todo.id) }}'">Delete</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("unarchive", task_id=todo.id) }}'">Restore</button>
-    {% endfor %}
+{#<ul>#}
+{#    <h2> tasks to do</h2>#}
+{#    {% for todo in tasks_to_do %}#}
+{#        <li>{{ todo.task }}</li>#}
+{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("delete", task_id=todo.id) }}'">Delete</button>#}
+{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("start", task_id=todo.id) }}'">Start</button>#}
+{#    {% endfor %}#}
+{#    <br><br>#}
+{#    <h2> Working On</h2>#}
+{#    {% for todo in working_on %}#}
+{#        <li>{{ todo.task }}</li>#}
+{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("stopped", task_id=todo.id) }}'">Stop</button>#}
+{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("completed", task_id=todo.id) }}'">Completed</button>#}
+{#    {% endfor %}#}
+{#    <br><br>#}
+{#    <h2> Completed</h2>#}
+{#    {% for todo in completed %}#}
+{#        <li>{{ todo.task }}</li>#}
+{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("not_complete", task_id=todo.id) }}'">More Work</button>#}
+{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("archive", task_id=todo.id) }}'">Archive</button>#}
+{#    {% endfor %}#}
+{#    <br><br>#}
+{#    <h2>Archived</h2>#}
+{#    {% for todo in archive %}#}
+{#        <li> {{ todo.task }}</li>#}
+{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("delete", task_id=todo.id) }}'">Delete</button>#}
+{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("unarchive", task_id=todo.id) }}'">Restore</button>#}
+{#    {% endfor %}#}
+{##}
+{#</ul>#}
 
-</ul>
+<!-- Inside Task Manager -->
+
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-lg-3 mb-3 text-center">
+        <div class="col">
+            <div class="card mb-2 rounded-2 shadow-sm">
+                {% include 'work-to-do.html' %}
+            </div>
+        </div>
+        <div class="card mb-2 rounded-2 shadow-sm">
+            {% include 'working-on.html' %}
+        </div>
+    </div>
+</div>

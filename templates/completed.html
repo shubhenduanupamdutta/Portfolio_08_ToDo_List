@@ -6,7 +6,7 @@
     {% if completed|length == 0 %}
     <h5> No Task Currently Going On</h5>
     {% else %}
-        <table id="workingTable" class="table">
+        <table id="completedTable" class="table table-striped">
             <thead>
             <tr>
                 <th class="small">No.</th>
@@ -20,7 +20,12 @@
 
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
-                    <td class="large align-middle"> {{ todo.task }}</td>
+                    <td class="large align-middle">
+                        <h6> {{ todo.task }} </h6>
+                        <p> Started On: {{ todo.start_date.strftime("%d-%m-%Y %H:%M:%S") }}<br>
+                            Finished By: {{ todo.end_date.strftime("%d-%m-%Y %H:%M:%S") }}<br>
+                            Complete By: {{ todo.estimated_end_date.strftime("%d-%m-%Y") }}</p>
+                    </td>
                     <td class="small align-middle"> {{ create_button(url_for('not_complete', task_id=todo.id), 'fa-solid fa-play', 'btn-warning') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('archive', task_id=todo.id), 'fa-solid fa-box-archive', 'btn-success') }}</td>
                 </tr>

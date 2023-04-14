@@ -141,10 +141,11 @@ nav img:hover {
     padding-bottom: 2%
 }
 
-#taskManager .filler {
-    background-color: white;
-}
 
+#taskManager table tr td h6 {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
 
 #taskManager table tr .small {
@@ -153,7 +154,6 @@ nav img:hover {
 
 #taskManager table tbody .large {
     width: 55%;
-    text-align: left !important;
 }
 
 #workToDo .card-body {

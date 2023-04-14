@@ -6,13 +6,16 @@
     {% if archive|length == 0 %}
     <h5> No Task Currently Going On</h5>
     {% else %}
-        <table id="workingTable" class="table">
+        <table id="archiveTable" class="table table-striped">
             <thead>
             <tr>
-                <th class="small">Number</th>
-                <th class="large">Task</th>
-                <th class="small">Restore</th>
-                <th class="small">Delete</th>
+                <th scope="col" class="small">Number</th>
+                <th scope="col" class="large">Task</th>
+                <th scope="col" class="medium started">Started On</th>
+                <th scope="col" class="medium finished">Finished On</th>
+                <th scope="col" class="medium schedule">Complete By</th>
+                <th scope="col" class="small">Restore</th>
+                <th scope="col" class="small">Delete</th>
             </tr>
         </thead>
             <tbody>
@@ -20,7 +23,10 @@
 
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
-                    <td class="large align-middle"> {{ todo.task }}</td>
+                    <td class="large align-middle"> <h6> {{ todo.task }}</h6></td>
+                    <td class="medium align-middle started"> {{ todo.start_date.strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                    <td class="medium align-middle finished"> {{ todo.end_date.strftime("%d-%m-%Y %H:%M:%S") }} </td>
+                    <td class="medium align-middle schedule"> {{ todo.estimated_end_date.strftime("%d-%m-%Y") }} </td>
                     <td class="small align-middle"> {{ create_button(url_for('unarchive', task_id=todo.id), 'fa-solid fa-window-restore', 'btn-warning') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('delete', task_id=todo.id), 'fa-solid fa-trash', 'btn-danger') }}</td>
                 </tr>

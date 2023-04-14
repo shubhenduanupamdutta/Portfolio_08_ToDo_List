@@ -6,7 +6,7 @@
     {% if working_on|length == 0 %}
     <h5> No Task Currently Going On</h5>
     {% else %}
-        <table id="workingTable" class="table">
+        <table id="workingOnTable" class="table table-striped">
             <thead>
             <tr>
                 <th class="small">Priority</th>
@@ -15,12 +15,16 @@
                 <th class="small">Done</th>
             </tr>
         </thead>
-            <tbody>
+            <tbody id="accordionWorkingOn">
             {% for todo in working_on %}
 
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
-                    <td class="large align-middle"> {{ todo.task }}</td>
+                    <td class="large align-middle">
+                        <h6> {{ todo.task }}</h6>
+                        <p> Started On: {{ todo.start_date.strftime("%d-%m-%Y %H:%M:%S") }}<br>
+                            Complete By: {{ todo.estimated_end_date.strftime("%d-%m-%Y") }}</p>
+                    </td>
                     <td class="small align-middle"> {{ create_button(url_for('stopped', task_id=todo.id), 'fa-solid fa-stop', 'btn-warning') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('completed', task_id=todo.id), 'fa-solid fa-check-double', 'btn-success') }}</td>
                 </tr>

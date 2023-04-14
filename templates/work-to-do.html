@@ -6,7 +6,7 @@
     {% if tasks_to_do|length == 0 %}
     <h5> No Tasks Pending</h5>
     {% else %}
-        <table id="pendingTable" class="table">
+        <table id="pendingTable" class="table table-striped">
             <thead>
             <tr>
                 <th class="small">Priority</th>
@@ -20,7 +20,10 @@
 
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
-                    <td class="large align-middle"> {{ todo.task }}</td>
+                    <td class="large align-middle">
+                        <h6>{{ todo.task }}</h6>
+                        <p> Complete By: {{ todo.estimated_end_date.strftime("%d-%m-%Y") }}</p>
+                    </td>
                     <td class="small align-middle"> {{ create_button(url_for('start', task_id=todo.id), 'fa-solid fa-play', 'btn-success') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('delete', task_id=todo.id), 'fa-solid fa-trash', 'btn-danger') }}</td>
                 </tr>

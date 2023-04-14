@@ -163,6 +163,7 @@ def inject_variables():
 def start(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_started = True
+    task.start_date = datetime.now()
     db.session.commit()
     return redirect(url_for('home'))
 
@@ -179,6 +180,7 @@ def delete(task_id):
 def completed(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_finished = True
+    task.end_date = datetime.now()
     db.session.commit()
     return redirect(url_for('home'))
 

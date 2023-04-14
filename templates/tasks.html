@@ -1,17 +1,5 @@
-{#<ul>#}
-{#    <h2> tasks to do</h2>#}
-{#    {% for todo in tasks_to_do %}#}
-{#        <li>{{ todo.task }}</li>#}
-{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("delete", task_id=todo.id) }}'">Delete</button>#}
-{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("start", task_id=todo.id) }}'">Start</button>#}
-{#    {% endfor %}#}
-{#    <br><br>#}
-{#    <h2> Working On</h2>#}
-{#    {% for todo in working_on %}#}
-{#        <li>{{ todo.task }}</li>#}
-{#        <button type="button" class="btn btn-warning btn-sm" onclick="location.href='{{ url_for("stopped", task_id=todo.id) }}'">Stop</button>#}
-{#        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{{ url_for("completed", task_id=todo.id) }}'">Completed</button>#}
-{#    {% endfor %}#}
+
+
 {#    <br><br>#}
 {#    <h2> Completed</h2>#}
 {#    {% for todo in completed %}#}
@@ -31,15 +19,32 @@
 
 <!-- Inside Task Manager -->
 
+{% macro create_button(url, label, color) -%}
+    <button type="button" class="btn {{ color }} btn-sm" onclick="location.href='{{ url }}'"><i class="{{ label }}"></i></button>
+{% endmacro %}
+
 <div class="container-fluid">
     <div class="row row-cols-1 row-cols-lg-3 mb-3 text-center">
-        <div class="col">
+        <div class="col" id="workToDo">
             <div class="card mb-2 rounded-2 shadow-sm">
                 {% include 'work-to-do.html' %}
             </div>
         </div>
-        <div class="card mb-2 rounded-2 shadow-sm">
+        <div class="col" id="workingOn">
+                <div class="card mb-2 rounded-2 shadow-sm">
             {% include 'working-on.html' %}
         </div>
+        </div>
+
+        <div class="col" id="completed">
+            <div class="card mb-2 rounded-2 shadow-sm">
+                {% include 'completed.html' %}
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="container" id="archive">
+    <div class="card mb-2 rounded-2 shadow-sm">
+        {% include 'archive.html' %}
 </div>

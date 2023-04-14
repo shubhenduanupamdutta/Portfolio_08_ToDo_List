@@ -1,3 +1,31 @@
 <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Tasks to do</h4>
-                </div>
+    <h4 class="my-0 fw-normal">Pending Tasks</h4>
+</div>
+
+<div class="card-body">
+    {% if tasks_to_do|length == 0 %}
+    <h5> No Tasks Pending</h5>
+    {% else %}
+        <table id="pendingTable" class="table">
+            <thead>
+            <tr>
+                <th class="small">Priority</th>
+                <th class="large">Task</th>
+                <th class="small">Start</th>
+                <th class="small">Delete</th>
+            </tr>
+        </thead>
+            <tbody>
+            {% for todo in tasks_to_do %}
+
+                <tr>
+                    <th class="small align-middle" scope="row">{{ loop.index }}</th>
+                    <td class="large align-middle"> {{ todo.task }}</td>
+                    <td class="small align-middle"> {{ create_button(url_for('start', task_id=todo.id), 'fa-solid fa-play', 'btn-success') }}</td>
+                    <td class="small align-middle"> {{ create_button(url_for('delete', task_id=todo.id), 'fa-solid fa-trash', 'btn-danger') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>

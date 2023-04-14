@@ -1,28 +1,28 @@
 <div class="card-header py-3">
-    <h4 class="my-0 fw-normal">Working On</h4>
+    <h4 class="my-0 fw-normal">Completed Tasks</h4>
 </div>
 
 <div class="card-body">
-    {% if working_on|length == 0 %}
+    {% if completed|length == 0 %}
     <h5> No Task Currently Going On</h5>
     {% else %}
         <table id="workingTable" class="table">
             <thead>
             <tr>
-                <th class="small">Priority</th>
+                <th class="small">No.</th>
                 <th class="large">Task</th>
-                <th class="small">Stop</th>
-                <th class="small">Done</th>
+                <th class="small">Ongoing</th>
+                <th class="small">Archive</th>
             </tr>
         </thead>
             <tbody>
-            {% for todo in working_on %}
+            {% for todo in completed %}
 
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
                     <td class="large align-middle"> {{ todo.task }}</td>
-                    <td class="small align-middle"> {{ create_button(url_for('stopped', task_id=todo.id), 'fa-solid fa-stop', 'btn-warning') }}</td>
-                    <td class="small align-middle"> {{ create_button(url_for('completed', task_id=todo.id), 'fa-solid fa-check-double', 'btn-success') }}</td>
+                    <td class="small align-middle"> {{ create_button(url_for('not_complete', task_id=todo.id), 'fa-solid fa-play', 'btn-warning') }}</td>
+                    <td class="small align-middle"> {{ create_button(url_for('archive', task_id=todo.id), 'fa-solid fa-box-archive', 'btn-success') }}</td>
                 </tr>
             {% endfor %}
             </tbody>

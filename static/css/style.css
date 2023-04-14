@@ -108,6 +108,11 @@ nav img:hover {
     color: blue;
 }
 
+/**************** USER-PAGE ****************/
+#userInfo h1 {
+    padding: 2% 0;
+}
+
 /************** To-Do Form ***************/
 #todoForm .btn {
     width: min(70%, 200px);
@@ -123,13 +128,49 @@ nav img:hover {
 /************** Task Manager ***************/
 
 #taskManager {
+    padding-bottom: 2%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#taskManager .card {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#taskManager h1 {
     padding-top: 5%;
+    padding-bottom: 2%
 }
 
 #taskManager .filler {
     background-color: white;
 }
 
+
+
+#taskManager table tr .small {
+    width:15%;
+}
+
+#taskManager table tbody .large {
+    width: 55%;
+    text-align: left !important;
+}
+
+#workToDo .card-body {
+    background-color: pink;
+}
+
+#workingOn .card-body {
+    background-color: lightblue;
+}
+
+#completed .card-body {
+    background-color: lightgreen;
+}
+
+#archive .card-body {
+    background-color: lightgrey;
+}
 /************** Footer ***************/
 
 #page-container {

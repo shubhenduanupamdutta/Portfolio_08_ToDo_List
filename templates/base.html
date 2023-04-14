@@ -22,6 +22,9 @@
           href=" {{ url_for('static', filename='favicon/favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='/site.webmanifest') }}">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/e8f916ca47.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id="page-container">
@@ -64,8 +67,8 @@
             {{ render_messages() }}
         </section>
         {% if current_user.is_authenticated %}
-            <section id="user_info">
-                <h1> Welcome {{ session.name }}</h1>
+            <section id="userInfo">
+                <h1> Welcome {{ session.name.title() }}</h1>
             </section>
         {% endif %}
         {% block content %}{% endblock %}

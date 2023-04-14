@@ -81,7 +81,6 @@ def home():
                              .scalars())
         except AttributeError:
             todo_list = []
-        any_todo = len(todo_list) > 0
         form = NewTask(formdata=None)
 
         # Dividing tasks into tasks_todo, working_on and completed
@@ -92,8 +91,8 @@ def home():
                                tasks_to_do=tasks_to_do,
                                working_on=working_on,
                                completed=complete,
-                               archive=archived,
-                               any_todo=any_todo)
+                               archive=archived
+                               )
     return render_template('index.html')
 
 

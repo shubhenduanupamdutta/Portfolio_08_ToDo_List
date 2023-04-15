@@ -8,6 +8,7 @@ from forms import NewTask, RegisterForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from datetime import datetime
+import psycopg2
 
 # Initializing Flask app
 app = Flask(__name__)

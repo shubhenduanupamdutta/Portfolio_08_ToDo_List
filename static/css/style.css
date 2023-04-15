@@ -147,6 +147,9 @@ nav img:hover {
     font-size: 1.2rem;
 }
 
+#taskManager table tr td p {
+    font-size: 0.8rem;
+}
 
 #taskManager table tr .small {
     width:15%;
@@ -170,6 +173,36 @@ nav img:hover {
 
 #archive .card-body {
     background-color: lightgrey;
+    overflow-x: auto;
+}
+
+#archive .started {
+    background-color: yellowgreen;
+}
+
+#archive .finished {
+    background-color: lightgreen;
+}
+
+#archive .schedule {
+    background-color: orangered;
+}
+
+#archive .small {
+    width: 1% !important;
+}
+
+#archive .medium {
+    width: 20%;
+}
+
+#archive .large {
+    width: 25%;
+}
+
+#archive th {
+    font-weight: bold;
+    font-size: 1rem;
 }
 /************** Footer ***************/
 

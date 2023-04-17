@@ -66,7 +66,9 @@ def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo],
 
 
 def get_current_time() -> datetime.now():
-    return datetime.now(pytz.timezone('Asia/Kolkata'))
+    cur_time_utc = datetime.utcnow()
+    india_tz = pytz.timezone('Asia/Kolkata')
+    return pytz.utc.localize(cur_time_utc).astimezone(india_tz)
 
 
 @app.route('/', methods=['GET', 'POST'])

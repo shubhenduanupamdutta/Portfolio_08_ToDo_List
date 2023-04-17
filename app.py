@@ -123,8 +123,9 @@ def register():
     return render_template('register.html', form=form)
 
 
-def get_current_time() -> datetime:
-    return datetime.now(pytz.timezone('Asia/Kolkata'))
+def get_current_time(time: datetime.now()) -> datetime.now():
+    india_tz = pytz.timezone('Asia/Kolkata')
+    return india_tz.localize(time)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -170,7 +171,7 @@ def inject_variables():
 def start(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_started = True
-    task.start_date = get_current_time()
+    task.start_date = get_current_time(datetime.now())
     db.session.commit()
     return redirect(url_for('home'))
 
@@ -187,7 +188,7 @@ def delete(task_id):
 def completed(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_finished = True
-    task.end_date = get_current_time()
+    task.end_date = get_current_time(datetime.now())
     db.session.commit()
     return redirect(url_for('home'))
 

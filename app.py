@@ -9,10 +9,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from datetime import datetime, timedelta, timezone
 import psycopg2
-
+import pytz
 
 # Some Constants
-time_zone = timezone(timedelta(hours=5, minutes=30))
+time_zone = pytz.timezone('Asia/Kolkata')
 
 # Initializing Flask app
 app = Flask(__name__)
@@ -68,6 +68,20 @@ def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo],
     return tasks_to_do, working_on, complete, archived
 
 
+# Custom jinja filters
+def convert_to_local_time(value: datetime) -> str:
+    return value.replace(tzinfo=pytz.utc).astimezone(time_zone).strftime("%d-%m-%y %H:%M:%S")
+
+
+def format_date(value: datetime) -> str:
+    return value.strftime("%d-%m-%y")
+
+
+# Registering custom jinja filters
+app.add_template_filter(convert_to_local_time, 'localtime')
+app.add_template_filter(format_date, 'formatdate')
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = NewTask()
@@ -96,7 +110,8 @@ def home():
                                tasks_to_do=tasks_to_do,
                                working_on=working_on,
                                completed=complete,
-                               archive=archived
+                               archive=archived,
+                               time_zone=time_zone
                                )
     return render_template('index.html')
 
@@ -168,7 +183,7 @@ def inject_variables():
 def start(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_started = True
-    task.start_date = datetime.now(tz=time_zone)
+    task.start_date = datetime.utcnow()
     db.session.commit()
     return redirect(url_for('home'))
 
@@ -185,7 +200,7 @@ def delete(task_id):
 def completed(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_finished = True
-    task.end_date = datetime.now(tz=time_zone)
+    task.end_date = datetime.utcnow()
     db.session.commit()
     return redirect(url_for('home'))
 

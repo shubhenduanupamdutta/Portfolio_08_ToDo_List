@@ -24,9 +24,9 @@
                 <tr>
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
                     <td class="large align-middle"> <h6> {{ todo.task }}</h6></td>
-                    <td class="medium align-middle started"> <p>{{ todo.start_date.strftime("%d-%m-%Y %H:%M:%S") }}</p></td>
-                    <td class="medium align-middle finished"> <p>{{ todo.end_date.strftime("%d-%m-%Y %H:%M:%S") }} </p></td>
-                    <td class="medium align-middle schedule"> <p>{{ todo.estimated_end_date.strftime("%d-%m-%Y") }} </p></td>
+                    <td class="medium align-middle started"> <p>{{ todo.start_date | localtime }}</p></td>
+                    <td class="medium align-middle finished"> <p>{{ todo.end_date | localtime }} </p></td>
+                    <td class="medium align-middle schedule"> <p>{{ todo.estimated_end_date | formatdate }} </p></td>
                     <td class="small align-middle"> {{ create_button(url_for('unarchive', task_id=todo.id), 'fa-solid fa-window-restore', 'btn-warning') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('delete', task_id=todo.id), 'fa-solid fa-trash', 'btn-danger') }}</td>
                 </tr>

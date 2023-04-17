@@ -22,8 +22,8 @@
                     <th class="small align-middle" scope="row">{{ loop.index }}</th>
                     <td class="large align-middle">
                         <h6> {{ todo.task }}</h6>
-                        <p> Started On: {{ todo.start_date.strftime("%d-%m-%Y %H:%M:%S") }}<br>
-                            Complete By: {{ todo.estimated_end_date.strftime("%d-%m-%Y") }}</p>
+                        <p> Started On: {{ todo.start_date | localtime }}<br>
+                            Complete By: {{ todo.estimated_end_date | formatdate }}</p>
                     </td>
                     <td class="small align-middle"> {{ create_button(url_for('stopped', task_id=todo.id), 'fa-solid fa-stop', 'btn-warning') }}</td>
                     <td class="small align-middle"> {{ create_button(url_for('completed', task_id=todo.id), 'fa-solid fa-check-double', 'btn-success') }}</td>

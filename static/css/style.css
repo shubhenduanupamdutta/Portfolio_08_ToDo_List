@@ -25,7 +25,6 @@ h1, h2, h3 {
 
 nav.navbar {
     background-color: transparent !important;
-    height: 100px;
 }
 
 nav .nav-item {
@@ -43,8 +42,11 @@ nav .nav-link:hover {
     color: #000000 !important;
 }
 
+nav img {
+    transition: transform 0.5s ease;
+}
 nav img:hover {
-    height: 50px;
+    transform: scale(1.2);
 }
 
 

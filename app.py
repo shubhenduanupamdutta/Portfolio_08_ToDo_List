@@ -13,7 +13,6 @@ import psycopg2
 
 # Initializing Flask app
 app = Flask(__name__)
-print(os.environ['SECRET_KEY'])
 app.secret_key = os.environ['SECRET_KEY']
 
 # Initializing Bootstrap

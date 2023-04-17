@@ -7,9 +7,12 @@ from turbo_flask import Turbo
 from forms import NewTask, RegisterForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
-import pytz
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import psycopg2
+
+
+# Some Constants
+time_zone = timezone(timedelta(hours=5, minutes=30))
 
 # Initializing Flask app
 app = Flask(__name__)
@@ -63,12 +66,6 @@ def divide_tasks(tasks: list[Todo]) -> tuple[list[Todo], list[Todo], list[Todo],
             archived.append(task)
 
     return tasks_to_do, working_on, complete, archived
-
-
-def get_current_time() -> datetime.now():
-    cur_time_utc = datetime.utcnow()
-    india_tz = pytz.timezone('Asia/Kolkata')
-    return pytz.utc.localize(cur_time_utc).astimezone(india_tz)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -171,7 +168,7 @@ def inject_variables():
 def start(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_started = True
-    task.start_date = get_current_time()
+    task.start_date = datetime.now(tz=time_zone)
     db.session.commit()
     return redirect(url_for('home'))
 
@@ -188,7 +185,7 @@ def delete(task_id):
 def completed(task_id):
     task = db.get_or_404(Todo, task_id)
     task.task_finished = True
-    task.end_date = get_current_time()
+    task.end_date = datetime.now(tz=time_zone)
     db.session.commit()
     return redirect(url_for('home'))
 
